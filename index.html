@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Perpustakaan Seri Kenyalang</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: #eef2f7;
+}
+
+/* Header */
+header {
+    background: linear-gradient(90deg, #2c3e50, #4ca1af);
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header p {
+    margin: 5px;
+    font-size: 14px;
+}
+
+/* Container */
+.container {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+}
+
+/* Language */
+.lang-switch {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.lang-switch button {
+    margin-left: 5px;
+    background: #4ca1af;
+    color: white;
+}
+
+/* Cards */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Rooms */
+.rooms {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.room {
+    flex: 1;
+    min-width: 150px;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.available {
+    background: #d4edda;
+}
+
+.booked {
+    background: #f8d7da;
+}
+
+/* Buttons */
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+/* Form */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form input, form select {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* Booking */
+.booking {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.edit {
+    background: #ffc107;
+}
+
+.delete {
+    background: #dc3545;
+    color: white;
+}
+
+/* Popup Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    margin: 15% auto;
+    width: 300px;
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.close-btn {
+    background: #28a745;
+    color: white;
+    margin-top: 10px;
+}
+</style>
+
+</head>
+<body>
+
+<header>
+    <h1 id="title">📚 Perpustakaan Seri Kenyalang</h1>
+    <p id="subtitle">Room Booking System</p>
+</header>
+
+<div class="container">
+
+<!-- Language -->
+<div class="lang-switch">
+    <button onclick="setLanguage('en')">English</button>
+    <button onclick="setLanguage('bm')">BM</button>
+</div>
+
+<!-- Rooms -->
+<div class="card">
+    <h2 id="availability">Room Availability</h2>
+    <div class="rooms">
+        <div class="room available">
+            <h3>Room A</h3>
+            <p id="status1">Available</p>
+        </div>
+
+        <div class="room booked">
+            <h3>Room B</h3>
+            <p id="status2">Booked</p>
+        </div>
+
+        <div class="room available">
+            <h3>Room C</h3>
+            <p id="status3">Available</p>
+        </div>
+    </div>
+</div>
+
+<!-- Form -->
+<div class="card">
+    <h2 id="bookingTitle">Make a Booking</h2>
+    <form onsubmit="return showPopup()">
+        <label id="nameLabel">Name:</label>
+        <input type="text" required>
+
+        <label id="dateLabel">Date:</label>
+        <input type="date" required>
+
+        <label id="timeLabel">Time:</label>
+        <input type="time" required>
+
+        <label id="roomLabel">Room:</label>
+        <select>
+            <option>Room A</option>
+            <option>Room B</option>
+            <option>Room C</option>
+        </select>
+
+        <button type="submit" id="confirmBtn">Confirm Booking</button>
+    </form>
+</div>
+
+<!-- Booking -->
+<div class="card">
+    <h2 id="yourBooking">Your Bookings</h2>
+    <div class="booking">
+        <p>Room A | 25 March | 10:00 AM</p>
+        <button class="edit">Modify</button>
+        <button class="delete">Cancel</button>
+    </div>
+</div>
+
+</div>
+
+<!-- Popup -->
+<div class="modal" id="popup">
+    <div class="modal-content">
+        <h3 id="popupText">✅ Booking Successful!</h3>
+        <button class="close-btn" onclick="closePopup()">OK</button>
+    </div>
+</div>
+
+<script>
+function showPopup() {
+    document.getElementById("popup").style.display = "block";
+    return false;
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
+/* Language */
+function setLanguage(lang) {
+    if (lang === 'bm') {
+        document.getElementById("title").innerText = "📚 Perpustakaan Seri Kenyalang";
+        document.getElementById("subtitle").innerText = "Sistem Tempahan Bilik";
+        document.getElementById("availability").innerText = "Ketersediaan Bilik";
+        document.getElementById("bookingTitle").innerText = "Buat Tempahan";
+        document.getElementById("yourBooking").innerText = "Tempahan Anda";
+
+        document.getElementById("nameLabel").innerText = "Nama:";
+        document.getElementById("dateLabel").innerText = "Tarikh:";
+        document.getElementById("timeLabel").innerText = "Masa:";
+        document.getElementById("roomLabel").innerText = "Bilik:";
+        document.getElementById("confirmBtn").innerText = "Sahkan";
+
+        document.getElementById("popupText").innerText = "✅ Tempahan Berjaya!";
+    } else {
+        location.reload();
+    }
+}
+</script>
+
+</body>
+</html>
